@@ -1,0 +1,149 @@
+\documentclass[12pt, a4paper, oneside]{memoir}
+\input{packages}
+\input{macros}
+
+\graphicspath{{./images/}{./figures/}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Style des têtes de section, headings, chapitre
+\chapterstyle{dash}
+\makeevenhead{headings}{\sffamily\thepage}{}{\sffamily\leftmark} 
+\makeoddhead{headings}{\sffamily\rightmark}{}{\sffamily\thepage}
+\makeoddfoot{plain}{}{\thepage}{} % Pages chapitre. 
+\makeevenfoot{plain}{}{\thepage}{}
+\makeheadrule{headings}{\textwidth}{\normalrulethickness}
+\renewcommand{\chaptername}{\relax}
+\renewcommand{\chaptitlefont}{ \sffamily\bfseries \LARGE}
+\renewcommand{\chapnumfont}{ \sffamily\bfseries \LARGE}
+\setsecnumdepth{subsection}
+\setlength{\parskip}{-1pt plus 1pt}
+\renewcommand{\abstracttextfont}{\normalfont}
+\nonzeroparskip
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title page formatting -- do not change!
+\pretitle{\HUGE\sffamily \bfseries\begin{center}} 
+\posttitle{\end{center}\bigskip}
+\preauthor{\Large  \sffamily}
+\postauthor{\par}
+
+\newcommand{\jury}[1]{\gdef\juryB{#1}} 
+\newcommand{\juryB}{} 
+\newcommand{\session}[1]{\gdef\sessionB{#1}} 
+\newcommand{\sessionB}{} 
+
+\renewcommand{\maketitlehookd}{\vfill{}\large\par\noindent\juryB \bigskip\sessionB\vspace{-1.5cm}}
+
+\renewcommand{\maketitlehooka}{\vspace{-1.5cm}\noindent\includegraphics[height=14ex]{Isima logo_INP VF.png}\hfill\raisebox{2ex}{\includegraphics[height=14ex]{logo_limos}}\\
+\bigskip
+\begin{center} \large
+Rapport d'élève ingénieur \\
+Projet de 2ème année \\
+Filière : Modélisation mathématique et science des données
+\end{center}
+}
+% End of title page formatting
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Personalisation
+\title{Implémentation en Rust d'algorithmes de division dans le monoïde plaxique} %\\\vspace{-1ex}\rule{10ex}{0.5pt} \\sub-title} 
+\author{Présenté par : \bfseries{Antoine Aroles} et \bfseries{Aimadeddine Elabaas}}
+\date{\today} % Display the current date (e.g., \today{})
+\jury{
+  \\
+Tuteur : M. Léo Robert \\
+Responsable ISIMA : M. Pascal Lafourcade \\ \medskip
+Campus des Cézaux. 1 rue de la Chebarde. TSA 60125. 63178 Aubière CEDEX
+}
+%\session{June\hfill 2019}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% BEGIN DOCUMENT
+\begin{document}
+\selectlanguage{french} % french si rapport en français
+\frontmatter
+
+\maketitle
+
+\newpage
+\chapter{Remerciements}
+Nous tenons tout d'abord à remercier notre tuteur, M. Robert, pour nous avoir guidés tout au long de ce projet. Nous remercions aussi M. Lafourcade pour sa présence à notre soutenance ainsi que Mme Mouzat, notre enseignante de communication. Enfin, nous remercions Venceslas Duet pour ses conseils apportés pour l'implémentation.
+
+\newpage
+\listoffigures
+
+\newpage
+\abstractintoc
+\renewcommand\abstractname{R\'esum\'e}
+\begin{abstract}
+  Daniel Brown propose dans~\cite{brown2021plactic} un protocole d'échange de clés sur le monoïde plaxique qui serait utilisable en pratique à la condition qu'il n'y ait pas de meilleur algorithme de division que l'érosion. Mais par la suite, Chris Monico publie dans~\cite{monico2022division} un algorithme probabiliste beaucoup plus rapide et potentiellement polynomial. Nous avons implémenté ces algorithmes en Rust et trouvé que la division de Monico est en effet beaucoup plus rapide que l'érosion.
+
+ \noindent Mots-clés : monoïde plaxique, division, Rust, tableaux de Young
+\end{abstract}
+
+\abstractintoc
+\renewcommand\abstractname{Abstract}
+\begin{abstract}\selectlanguage{english} 
+  Daniel Brown proposed in~\cite{brown2021plactic} a key exchange protocol on the plactic monoid which could be practical if the erosion was the fastest division algorithm. But then Chris Monico published in~\cite{monico2022division} a probabilistic algorithm which is way faster and might be polynomial. We implemented those algorithms in Rust and found that Monico's division is indeed way faster than erosion.
+
+  \noindent Keywords : plactic monoid, division, Rust, Young tableaux
+\end{abstract}\selectlanguage{french}
+
+\newpage
+\tableofcontents % asterisk means that the ToC itself isn't put into the ToC
+\normalsize
+
+\chapter{Introduction}
+Nous avons effectué notre projet au Laboratoire d'Informatique, de Modélisation et d'Optimisation des Systèmes (LIMOS) pour notre tuteur M. Robert qui y est chercheur postdoctoral. Au départ, il s'intitulait «~Étude du monoïde plaxique pour une application cryptographique~». Le sujet est basé sur l'article~\cite{brown2021plactic} de Daniel Brown. Initialement, l'idée était d'étudier la complexité de la division par érosion, de chercher un algorithme plus performant et éventuellement d'implémenter un protocole d'échange de clés sur le monoïde plaxique. Mais en décembre, Chris Monico Monico publia l'article~\cite{monico2022division} et notre projet prit un autre tournant. Nous nous sommes finalement concentré sur l'implémentation de différents algorithmes de division afin de pouvoir les comparer, et ainsi répliquer les résultats obtenus par Brown et Monico.
+
+\mainmatter
+
+%=====================
+
+\chapter{Le monoïde plaxique} \label{ch1}
+\input{chap1.tex}
+
+\chapter{Notre travail} \label{ch2}
+\input{chap2.tex}
+
+\chapter{Résultats et discussion} \label{ch3}
+\input{chap3.tex}
+
+%=====================
+\backmatter
+
+\chapter{Conclusion}
+Notre objectif premier était de réussir à implémenter en Rust la multiplication de tableaux, la division par érosion et les divisions de Monico. Cet objectif a été rempli : nous avons un programme permettant de facilement créer de tableaux, de les multiplier et de les diviser. Les fonctions ont été testées et se comportent comme attendues. 
+
+Nous avons pu effectuer quelques tests, mais aurions aimé en faire plus. Nous aurions aussi voulu essayer d'étudier la complexité théorique des différents algorithmes, mais n'en avons pas eu le temps.
+
+Travailler en Rust, un langage que nous ne connaissions pas nous a beaucoup appris sur le développement, et nous permettrons surement d'apprendre plus facilement de nouveaux langages par la suite.
+
+Nous avons apprécié le fait de travailler sur des problèmes ouverts sur un sujet de recherche actif. Nous avons aussi aimé le fait que le sujet mélange mathématiques et développement car ces deux disciplines nous intéressent. Le fait d'avoir une application pratique dans la cryptographie donne au sujet encore plus d'intérêt.
+%\appendix
+%\chapter{Appendix}
+%\input{appendix}
+
+\bibliographystyle{plain-fr} % plain-fr si rapport en français
+\bibliography{refs}
+
+%En français, il peut être une bonne idée de mettre le résumé en 4e de couverture... (à ce moment là, commenter les abstracts avan la ToC !)
+%% 4e de couverture
+%\cleardoublepage % Goes to an odd page
+%\pagestyle{empty} % no page number
+%~\newpage % goes to a new even page
+%
+%\section*{Abstract} \selectlanguage{english}
+%Abstract text
+%\medskip
+%\selectlanguage{french}
+%\section*{Résumé}
+%texte de résumé
+
+\end{document}

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":[["base64_ascii_to_word",""],["main",""],["solve_brown_challenge",""],["word_to_base_64_ascii",""]],"mod":[["monico",""],["tab",""]]};

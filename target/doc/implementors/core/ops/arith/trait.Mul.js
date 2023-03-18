@@ -1,0 +1,3 @@
+(function() {var implementors = {
+"plactic_monoid":[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.66.0/core/ops/arith/trait.Mul.html\" title=\"trait core::ops::arith::Mul\">Mul</a>&lt;&amp;<a class=\"struct\" href=\"plactic_monoid/tab/struct.Tableau.html\" title=\"struct plactic_monoid::tab::Tableau\">Tableau</a>&gt; for &amp;<a class=\"struct\" href=\"plactic_monoid/tab/struct.Tableau.html\" title=\"struct plactic_monoid::tab::Tableau\">Tableau</a>"]]
+};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
